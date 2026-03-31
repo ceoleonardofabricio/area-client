@@ -13,7 +13,7 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {"message": "API online"}
+    return {"message": "Backend online"}
 
 @app.get("/health")
 def health():
