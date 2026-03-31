@@ -1,8 +1,19 @@
+import { useEffect, useState } from "react";
+
 function App() {
+  const [status, setStatus] = useState("Carregando...");
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/health`)
+      .then((res) => res.json())
+      .then((data) => setStatus(data.status))
+      .catch(() => setStatus("erro ao conectar"));
+  }, []);
+
   return (
-    <div style={{ padding: 40, fontFamily: "Arial, sans-serif" }}>
+    <div style={{ padding: 40 }}>
       <h1>Área do Cliente</h1>
-      <p>Deploy automático funcionando.</p>
+      <p>Backend: {status}</p>
     </div>
   );
 }
