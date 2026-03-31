@@ -1,0 +1,15 @@
+.client-shell {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f3f4ff, #eef2ff);
+}
+
+.client-header {
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+    color: #ffffff;
+    padding: 20px;
+    font-weight: 600;
+}
+
+.client-main {
+    padding: 30px;
+}

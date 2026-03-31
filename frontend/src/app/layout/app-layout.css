@@ -1,0 +1,16 @@
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+.app-sidebar {
+    width: 220px;
+    background: linear-gradient(180deg, #4f46e5, #7c3aed);
+    color: #ffffff;
+    padding: 20px;
+}
+
+.app-main {
+    flex: 1;
+    padding: 30px;
+}
