@@ -158,6 +158,8 @@ function ClientCreateModal({ open, onClose, mode, initialData, onSave }) {
             companies,
         };
 
+        console.log("PAYLOAD ENVIADO:", payload);
+
         onSave(payload);
     }
 
