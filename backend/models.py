@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -12,7 +12,6 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
     type = Column(String, nullable=False)
-    client_id = Column(Integer, ForeignKey("clients.id"), nullable=True)
 
 
 class Client(Base):
