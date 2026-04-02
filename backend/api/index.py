@@ -1,10 +1,12 @@
+from typing import List, Optional
+
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from auth import create_access_token, verify_token
 from database import Base, SessionLocal, engine
-from models import User
+from models import Client, Company, User
 from security import hash_password, verify_password
 
 app = FastAPI()
@@ -30,6 +32,29 @@ class CreateUserInput(BaseModel):
     email: str
     password: str
     type: str
+
+
+class CompanyInput(BaseModel):
+    nomeFantasia: Optional[str] = ""
+    razaoSocial: Optional[str] = ""
+    cnpj: Optional[str] = ""
+    inscricaoEstadual: Optional[str] = ""
+    telefone: Optional[str] = ""
+    email: Optional[str] = ""
+    segmento: Optional[str] = ""
+    observacoes: Optional[str] = ""
+
+
+class ClientInput(BaseModel):
+    nomeCompleto: str
+    dataNascimento: Optional[str] = ""
+    cpf: Optional[str] = ""
+    sexo: Optional[str] = ""
+    emailLogin: str
+    senha: str
+    status: Optional[str] = ""
+    potencialCompra: Optional[str] = ""
+    companies: List[CompanyInput] = []
 
 
 @app.get("/")
@@ -111,3 +136,110 @@ def get_me(payload: dict = Depends(verify_token)):
         "message": "Token válido",
         "user": payload,
     }
+
+
+@app.get("/clients")
+def get_clients():
+    db = SessionLocal()
+
+    clients = db.query(Client).all()
+
+    response = []
+    for client in clients:
+        response.append(
+            {
+                "id": client.id,
+                "nomeCompleto": client.nome_completo,
+                "dataNascimento": client.data_nascimento,
+                "cpf": client.cpf,
+                "sexo": client.sexo,
+                "emailLogin": client.email_login,
+                "senha": client.senha,
+                "status": client.status,
+                "potencialCompra": client.potencial_compra,
+                "companies": [
+                    {
+                        "id": company.id,
+                        "nomeFantasia": company.nome_fantasia,
+                        "razaoSocial": company.razao_social,
+                        "cnpj": company.cnpj,
+                        "inscricaoEstadual": company.inscricao_estadual,
+                        "telefone": company.telefone,
+                        "email": company.email,
+                        "segmento": company.segmento,
+                        "observacoes": company.observacoes,
+                    }
+                    for company in client.companies
+                ],
+            }
+        )
+
+    db.close()
+    return response
+
+
+@app.post("/clients")
+def create_client(data: ClientInput):
+    db = SessionLocal()
+
+    existing_client = db.query(Client).filter(Client.email_login == data.emailLogin).first()
+    if existing_client:
+        db.close()
+        raise HTTPException(status_code=400, detail="E-mail de login já cadastrado")
+
+    client = Client(
+        nome_completo=data.nomeCompleto,
+        data_nascimento=data.dataNascimento,
+        cpf=data.cpf,
+        sexo=data.sexo,
+        email_login=data.emailLogin,
+        senha=data.senha,
+        status=data.status,
+        potencial_compra=data.potencialCompra,
+    )
+
+    for company_data in data.companies:
+        company = Company(
+            nome_fantasia=company_data.nomeFantasia,
+            razao_social=company_data.razaoSocial,
+            cnpj=company_data.cnpj,
+            inscricao_estadual=company_data.inscricaoEstadual,
+            telefone=company_data.telefone,
+            email=company_data.email,
+            segmento=company_data.segmento,
+            observacoes=company_data.observacoes,
+        )
+        client.companies.append(company)
+
+    db.add(client)
+    db.commit()
+    db.refresh(client)
+
+    response = {
+        "id": client.id,
+        "nomeCompleto": client.nome_completo,
+        "dataNascimento": client.data_nascimento,
+        "cpf": client.cpf,
+        "sexo": client.sexo,
+        "emailLogin": client.email_login,
+        "senha": client.senha,
+        "status": client.status,
+        "potencialCompra": client.potencial_compra,
+        "companies": [
+            {
+                "id": company.id,
+                "nomeFantasia": company.nome_fantasia,
+                "razaoSocial": company.razao_social,
+                "cnpj": company.cnpj,
+                "inscricaoEstadual": company.inscricao_estadual,
+                "telefone": company.telefone,
+                "email": company.email,
+                "segmento": company.segmento,
+                "observacoes": company.observacoes,
+            }
+            for company in client.companies
+        ],
+    }
+
+    db.close()
+    return response
