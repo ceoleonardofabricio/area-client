@@ -1,5 +1,15 @@
+import { useState } from "react";
+import "./topbar.css";
+
 function Topbar() {
     const user = JSON.parse(localStorage.getItem("user"));
+    const [open, setOpen] = useState(false);
+
+    function handleLogout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/appclient/login";
+    }
 
     return (
         <div className="topbar">
@@ -14,11 +24,27 @@ function Topbar() {
             </div>
 
             <div className="topbar-right">
-                <button className="topbar-profile-button" type="button">
-                    <div className="topbar-profile-avatar">
-                        {user?.name?.[0] || user?.email?.[0] || "U"}
-                    </div>
-                </button>
+                <div className="topbar-profile-wrapper">
+                    <button
+                        className="topbar-profile-button"
+                        onClick={() => setOpen(!open)}
+                    >
+                        <div className="topbar-profile-avatar">
+                            {user?.name?.[0] || user?.email?.[0] || "U"}
+                        </div>
+                    </button>
+
+                    {open && (
+                        <div className="topbar-dropdown">
+                            <button
+                                className="topbar-dropdown-item"
+                                onClick={handleLogout}
+                            >
+                                Sair
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
