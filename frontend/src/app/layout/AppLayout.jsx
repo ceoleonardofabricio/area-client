@@ -1,14 +1,21 @@
 import Sidebar from "../components/Sidebar";
+import Topbar from "../components/Topbar";
 import "./app-layout.css";
 
 function AppLayout({ children }) {
     return (
         <div className="app-shell">
-            <aside className="app-sidebar">
-                <Sidebar />
-            </aside>
+            <Topbar />
 
-            <main className="app-main">{children}</main>
+            <div className="app-body">
+                <aside className="app-sidebar">
+                    <Sidebar />
+                </aside>
+
+                <main className="app-main">
+                    {children}
+                </main>
+            </div>
         </div>
     );
 }

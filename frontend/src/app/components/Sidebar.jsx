@@ -3,8 +3,11 @@ import "./sidebar.css";
 
 function Sidebar() {
     return (
-        <div>
-            <h2 style={{ marginBottom: 20 }}>Admin</h2>
+        <div className="sidebar">
+            <div className="sidebar-top-link">
+                <span className="sidebar-top-icon">◀</span>
+                <span className="sidebar-top-text">AppClient</span>
+            </div>
 
             <nav className="sidebar-nav">
                 <NavLink
@@ -13,7 +16,8 @@ function Sidebar() {
                         isActive ? "sidebar-link active" : "sidebar-link"
                     }
                 >
-                    Dashboard
+                    <span className="sidebar-link-icon">▦</span>
+                    <span className="sidebar-link-text">Dashboard</span>
                 </NavLink>
 
                 <NavLink
@@ -22,7 +26,8 @@ function Sidebar() {
                         isActive ? "sidebar-link active" : "sidebar-link"
                     }
                 >
-                    Projetos
+                    <span className="sidebar-link-icon">◘</span>
+                    <span className="sidebar-link-text">Projetos</span>
                 </NavLink>
 
                 <NavLink
@@ -31,7 +36,8 @@ function Sidebar() {
                         isActive ? "sidebar-link active" : "sidebar-link"
                     }
                 >
-                    Clientes
+                    <span className="sidebar-link-icon">◉</span>
+                    <span className="sidebar-link-text">Clientes</span>
                 </NavLink>
             </nav>
         </div>
