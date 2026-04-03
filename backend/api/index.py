@@ -82,12 +82,13 @@ def login(data: LoginInput):
         raise HTTPException(status_code=401, detail="E-mail ou senha inválidos")
 
     token = create_access_token(
-        {
-            "sub": str(user.id),
-            "email": user.email,
-            "type": user.type,
-        }
-    )
+    {
+        "sub": str(user.id),
+        "name": user.name,
+        "email": user.email,
+        "type": user.type,
+    }
+)
 
     response = {
         "user": {
