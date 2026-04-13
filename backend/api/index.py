@@ -277,6 +277,8 @@ def update_client(client_id: int, data: ClientInput):
         db.close()
         raise HTTPException(status_code=404, detail="Cliente não encontrado")
 
+    old_email_login = client.email_login
+
     existing_client = (
         db.query(Client)
         .filter(Client.email_login == data.emailLogin, Client.id != client_id)
@@ -285,6 +287,17 @@ def update_client(client_id: int, data: ClientInput):
     if existing_client:
         db.close()
         raise HTTPException(status_code=400, detail="E-mail de login já cadastrado")
+
+    existing_user = (
+        db.query(User)
+        .filter(User.email == data.emailLogin, User.email != old_email_login)
+        .first()
+    )
+    if existing_user:
+        db.close()
+        raise HTTPException(status_code=400, detail="Já existe usuário com esse e-mail")
+
+    linked_user = db.query(User).filter(User.email == old_email_login).first()
 
     client.nome_completo = data.nomeCompleto
     client.data_nascimento = data.dataNascimento
@@ -295,12 +308,10 @@ def update_client(client_id: int, data: ClientInput):
     client.status = data.status
     client.potencial_compra = data.potencialCompra
 
-    user = db.query(User).filter(User.email == client.email_login).first()
-    if user:
-        user.name = data.nomeCompleto
-        user.email = data.emailLogin
-        user.password = hash_password(data.senha)
-        user.type = "cliente"
+    if linked_user:
+        linked_user.name = data.nomeCompleto
+        linked_user.email = data.emailLogin
+        linked_user.password = hash_password(data.senha)
 
     client.companies.clear()
 

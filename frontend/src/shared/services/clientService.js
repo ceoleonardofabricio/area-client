@@ -53,3 +53,21 @@ export async function deleteClient(clientId, adminPassword) {
 
     return result;
 }
+
+export async function updateClient(clientId, data) {
+    const response = await fetch(`${API_URL}/clients/${clientId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(result.detail || "Erro ao atualizar cliente");
+    }
+
+    return result;
+}

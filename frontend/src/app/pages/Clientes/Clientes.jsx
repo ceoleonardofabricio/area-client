@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import AppLayout from "../../layout/AppLayout";
 import ClientCreateModal from "./components/ClientCreateModal";
+
 import {
     getClients,
     createClient,
+    updateClient,
     deleteClient,
 } from "../../../shared/services/clientService";
+
 import "./clientes.css";
 
 function Clientes() {
@@ -81,11 +84,11 @@ function Clientes() {
                 const savedClient = await createClient(clientData);
                 setClients((prev) => [savedClient, ...prev]);
             } else {
+                const updatedClient = await updateClient(selectedClient.id, clientData);
+
                 setClients((prev) =>
                     prev.map((client) =>
-                        client.id === selectedClient.id
-                            ? { ...client, ...clientData }
-                            : client
+                        client.id === selectedClient.id ? updatedClient : client
                     )
                 );
             }
