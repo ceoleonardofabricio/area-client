@@ -20,11 +20,20 @@ function ClientDashboard() {
 
     return (
         <ClientLayout>
-            <div>
-                <h1>
-                    Boas-vindas, {user?.name || "Cliente"}
+            <div style={{ paddingTop: "8px" }}>
+                <h1 style={{ margin: 0, fontSize: "52px", lineHeight: 1.05 }}>
+                    Dashboard
                 </h1>
-                <p>Área do cliente</p>
+
+                <p
+                    style={{
+                        marginTop: "10px",
+                        color: "#667085",
+                        fontSize: "18px",
+                    }}
+                >
+                    Bem-vindo, {user?.name || "Cliente"}.
+                </p>
             </div>
         </ClientLayout>
     );

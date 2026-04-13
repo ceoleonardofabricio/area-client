@@ -1,13 +1,22 @@
+import ClientSidebar from "./components/ClientSidebar";
 import "./client-layout.css";
 
 function ClientLayout({ children }) {
     return (
         <div className="client-shell">
-            <header className="client-header">
-                Área do Cliente
-            </header>
+            <ClientSidebar />
 
-            <main className="client-main">{children}</main>
+            <div className="client-main">
+                <header className="client-topbar">
+                    <div className="client-breadcrumb">
+                        <span>Área do Cliente</span>
+                    </div>
+                </header>
+
+                <main className="client-content">
+                    {children}
+                </main>
+            </div>
         </div>
     );
 }

@@ -1,15 +1,110 @@
 .client-shell {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f3f4ff, #eef2ff);
+    display: flex;
+    background: #f5f7fb;
 }
 
-.client-header {
-    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+.client-sidebar {
+    width: 236px;
+    min-width: 236px;
+    background: #111111;
     color: #ffffff;
-    padding: 20px;
-    font-weight: 600;
+    margin: 8px;
+    border-radius: 18px;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    box-sizing: border-box;
+}
+
+.client-sidebar-brand {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 10px 4px;
+}
+
+.client-sidebar-brand-arrow {
+    font-size: 12px;
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+.client-sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.client-sidebar-brand-text strong {
+    font-size: 22px;
+    line-height: 1.15;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.client-sidebar-brand-text span {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.62);
+}
+
+.client-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.client-sidebar-link {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0 14px;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.client-sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.client-sidebar-link.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
 }
 
 .client-main {
-    padding: 30px;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.client-topbar {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    box-sizing: border-box;
+}
+
+.client-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #98a2b3;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.client-content {
+    flex: 1;
+    padding: 0 22px 22px;
+    box-sizing: border-box;
 }

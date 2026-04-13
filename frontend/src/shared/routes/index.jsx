@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import AppLogin from "../../app/pages/Login/Login";
-
-// 🔐 IMPORTANDO O PrivateRoute (agora separado)
 import PrivateRoute from "./PrivateRoute";
 
 // ADMIN
@@ -11,6 +9,7 @@ import Clientes from "../../app/pages/Clientes/Clientes";
 
 // CLIENT
 import ClientDashboard from "../../client/pages/Dashboard/Dashboard";
+import Management from "../../client/pages/Management/Management";
 
 function AppRoutes() {
     return (
@@ -44,6 +43,15 @@ function AppRoutes() {
                     element={
                         <PrivateRoute allowedTypes={["cliente"]}>
                             <ClientDashboard />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/client/management"
+                    element={
+                        <PrivateRoute allowedTypes={["cliente"]}>
+                            <Management />
                         </PrivateRoute>
                     }
                 />
